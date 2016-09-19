@@ -374,11 +374,11 @@ shinyServer(function(input, output,session){
     #++_____________++
     output$plot = renderPlot({  
       
-      if (is.null(input$file))
-        return(NULL)
-      
-      if (is.null(input$file1))
-        return(NULL)
+      # if (is.null(input$file))
+      #   return(NULL)
+      # 
+      # if (is.null(input$file1))
+      #   return(NULL)
       
       mydata = read.csv(input$file$datapath ,header=TRUE)
       row.names(mydata) = mydata[,1];
