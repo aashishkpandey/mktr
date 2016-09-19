@@ -374,11 +374,10 @@ shinyServer(function(input, output,session){
     #++_____________++
     output$plot = renderPlot({  
       
-      # if (is.null(input$file))
-      #   return(NULL)
-      # 
-      # if (is.null(input$file1))
-      #   return(NULL)
+      if (is.null(input$file))
+        return(NULL)
+
+
       
       mydata = read.csv(input$file$datapath ,header=TRUE)
       row.names(mydata) = mydata[,1];
@@ -389,12 +388,17 @@ shinyServer(function(input, output,session){
       
       # mydata = t(as.data.frame(read.table(input$file$datapath ,header=TRUE)))
       # mydata = mydata[,input$Attr]
+
+      if (is.null(input$file1)){
+            pref = matrix(0,2,nrow(mydata))
+        }
       
+      else {
       pref = read.csv(input$file1$datapath ,header=TRUE)
       row.names(pref) = pref[,1]
       pref = pref[,2:ncol(pref)]
       pref = pref[input$users,]
-      
+      }
       ### --- Para 3 of code ---- ###
       # --- write the JSM func ---
       
@@ -445,7 +449,7 @@ shinyServer(function(input, output,session){
         k1 = 2; #scale-down factor
         
         pref = data.matrix(prefs)# make data compatible
-        
+
         pref1 = pref %*% fit1$x[, 1:2]
         
         for (i1 in 1:nrow(pref1)){
@@ -462,6 +466,7 @@ shinyServer(function(input, output,session){
         
       } 					# JSM func ends
       
+
       JSM(mydata, pref)
       
     })
@@ -469,11 +474,11 @@ shinyServer(function(input, output,session){
     # Show table:
     output$plot1 = renderPlot({  
       
-      if (is.null(input$file))
-        return(NULL)
-      
-      if (is.null(input$file1))
-        return(NULL)
+      # if (is.null(input$file))
+      #   return(NULL)
+      # 
+      # if (is.null(input$file1))
+      #   return(NULL)
       
       mydata2 = read.csv(input$file$datapath ,header=TRUE)
       row.names(mydata2) = mydata2[,1];
